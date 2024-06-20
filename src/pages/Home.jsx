@@ -1,11 +1,12 @@
-import React from 'react'
+import UserResults from "../components/users/UserResults"
 
 function Home() {
   return (
-    <div>
-      <h1 className='text-6xl mb-4'>Welcome</h1>
+    <>
+    {/* search component */}
+    <UserResults />
       {/* {import.meta.env.VITE_APP_GITHUB_TOKEN} */}
-    </div>
+    </>
   )
 }
 
