@@ -1,16 +1,19 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
+import githubReducer from "./GitHubReducer";
 
 const GithubContext = createContext();
 
+//save env variables for rest api calls
 const GITHUB_URL = import.meta.env.VITE_APP_GITHUB_URL;
 const GITHUB_TOKEN = import.meta.env.VITE_APP_GITHUB_TOKEN;
 
 export const GithubProvider = ({ children }) => {
-  //empty array that will be filled with users
-  const [users, setUsers] = useState([]);
-  //whenever request is sent to api we need loader
-  //while api is loading its true, when we get data NOT loading any more = false
-  const [loading, setLoading] = useState(true);
+const initialState = {
+  users: [],
+  loading: true
+}
+
+const [state, dispatch] =useReducer(githubReducer, initialState)
 
   const fetchUsers = async () => {
     const response = await fetch(`${GITHUB_URL}/users`, {
@@ -20,15 +23,23 @@ export const GithubProvider = ({ children }) => {
     });
 
     const data = await response.json();
-    setUsers(data);
-    setLoading(false);
+
+ //after we get data, dispatch actions to githubReducer
+ //payload is additional information to perform the state transition
+    dispatch({
+      type: 'GET_USERS',
+      payload: data,
+
+    })
   };
 
   return (
     <GithubContext.Provider
+    //thanks to function gitHubReducer we now can
+    // update states and pass them in a value obj
       value={{
-        users,
-        loading,
+        users: state.users,
+        loading: state.loading,
         fetchUsers,
       }}
     >
