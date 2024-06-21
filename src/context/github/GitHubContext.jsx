@@ -8,19 +8,24 @@ const GITHUB_URL = import.meta.env.VITE_APP_GITHUB_URL;
 const GITHUB_TOKEN = import.meta.env.VITE_APP_GITHUB_TOKEN;
 
 export const GithubProvider = ({ children }) => {
-const initialState = {
-  users: [],
-  loading: false
-}
+  const initialState = {
+    users: [],
+    loading: false,
+  };
 
-const [state, dispatch] =useReducer(githubReducer, initialState)
+  const [state, dispatch] = useReducer(githubReducer, initialState);
 
+  //get search results
+  const searchUsers = async (text) => {
+    setLoading();
 
-//get initial users (testing purposes)
-  const fetchUsers = async () => {
-    setLoading()
-
-    const response = await fetch(`${GITHUB_URL}/users`, {
+    //create params variable to get hold of search params obj
+    const params = new URLSearchParams({
+      q: text,
+    });
+   
+    //pass on input params value to request api call 
+    const response = await fetch(`${GITHUB_URL}search/users?${params}`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
@@ -28,24 +33,21 @@ const [state, dispatch] =useReducer(githubReducer, initialState)
 
     const data = await response.json();
 
- //after we get data, dispatch actions to githubReducer
- //payload is additional information to perform the state transition
+    //after we get data, dispatch actions to githubReducer
+    //payload is additional information to perform the state transition
     dispatch({
-      type: 'GET_USERS',
+      type: "GET_USERS",
       payload: data,
-
-    })
+    });
   };
 
-//create set loading function
-const setLoading = () => dispatch({type:
-'SET_LOADING'})
-
+  //create set loading function
+  const setLoading = () => dispatch({ type: "SET_LOADING" });
 
   return (
     <GithubContext.Provider
-    //thanks to function gitHubReducer we now can
-    // update states and pass them in a value obj
+      //thanks to function gitHubReducer we now can
+      // update states and pass them in a value obj
       value={{
         users: state.users,
         loading: state.loading,
@@ -57,4 +59,4 @@ const setLoading = () => dispatch({type:
   );
 };
 
-export default GithubContext 
+export default GithubContext;
