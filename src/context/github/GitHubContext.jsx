@@ -25,19 +25,20 @@ export const GithubProvider = ({ children }) => {
     });
    
     //pass on input params value to request api call 
-    const response = await fetch(`${GITHUB_URL}search/users?${params}`, {
+    const response = await fetch(`${GITHUB_URL}/search/users?${params}`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
     });
-
-    const data = await response.json();
+    
+    //destructure received data and get hold of items
+    const {items} = await response.json();
 
     //after we get data, dispatch actions to githubReducer
     //payload is additional information to perform the state transition
     dispatch({
       type: "GET_USERS",
-      payload: data,
+      payload: items,
     });
   };
 
@@ -51,7 +52,7 @@ export const GithubProvider = ({ children }) => {
       value={{
         users: state.users,
         loading: state.loading,
-        fetchUsers,
+        searchUsers,
       }}
     >
       {children}
