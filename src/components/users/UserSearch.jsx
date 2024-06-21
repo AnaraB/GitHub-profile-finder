@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import GithubContext from "../../context/github/GitHubContext";
 
 function UserSearch() {
-  const {users, searchUsers} = useContext(GithubContext)
+  const {users, searchUsers, clearUsers} = useContext(GithubContext)
 
   const [text, setText] = useState("");
   const handleChange = (e) => setText(e.target.value)
@@ -20,6 +20,8 @@ function UserSearch() {
       setText('')
     }
   }
+
+ 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 mb-8 gap-8">
       <div>
@@ -48,7 +50,7 @@ function UserSearch() {
       {/* show  clear button only if any users profile are shown, use logical AND operator*/}
       {users.length > 0 && (
          <div>
-         <button className="btn btn-ghost btn-lg">Clear</button>
+         <button  type="submit" className="btn btn-ghost btn-lg"  onClick={clearUsers}>Clear</button>
        </div>
       )}
     </div>

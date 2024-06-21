@@ -45,6 +45,9 @@ export const GithubProvider = ({ children }) => {
   //create set loading function
   const setLoading = () => dispatch({ type: "SET_LOADING" });
 
+  //create clear profiles function
+  const clearUsers = () => dispatch({ type: "CLEAR_USERS"});
+
   return (
     <GithubContext.Provider
       //thanks to function gitHubReducer we now can
@@ -53,6 +56,7 @@ export const GithubProvider = ({ children }) => {
         users: state.users,
         loading: state.loading,
         searchUsers,
+        clearUsers,
       }}
     >
       {children}
