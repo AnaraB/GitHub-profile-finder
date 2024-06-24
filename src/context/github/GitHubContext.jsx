@@ -10,12 +10,37 @@ const GITHUB_TOKEN = import.meta.env.VITE_APP_GITHUB_TOKEN;
 export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
+    user: {},
     loading: false,
   };
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
 
-  //get search results
+  //get single user
+  const getUser = async (login) => {
+    setLoading();
+
+    //pass on login  to request api call
+    const response = await fetch(`${GITHUB_URL}/users/${login}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    });
+    //if such user is not found redirect to NOT FOUND page
+    if (response.status === 400) {
+      window.location = "/notfound";
+    } else {
+      const data = await response.json();
+      dispatch({
+        type: "GET_USER",
+        payload: data,
+      });
+    }
+  };
+
+
+
+// get all users results 
   const searchUsers = async (text) => {
     setLoading();
 
@@ -23,16 +48,16 @@ export const GithubProvider = ({ children }) => {
     const params = new URLSearchParams({
       q: text,
     });
-   
-    //pass on input params value to request api call 
+
+    //pass on input params value to request api call
     const response = await fetch(`${GITHUB_URL}/search/users?${params}`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
     });
-    
+
     //destructure received data and get hold of items
-    const {items} = await response.json();
+    const { items } = await response.json();
 
     //after we get data, dispatch actions to githubReducer
     //payload is additional information to perform the state transition
@@ -46,7 +71,7 @@ export const GithubProvider = ({ children }) => {
   const setLoading = () => dispatch({ type: "SET_LOADING" });
 
   //create clear profiles function
-  const clearUsers = () => dispatch({ type: "CLEAR_USERS"});
+  const clearUsers = () => dispatch({ type: "CLEAR_USERS" });
 
   return (
     <GithubContext.Provider
@@ -55,8 +80,10 @@ export const GithubProvider = ({ children }) => {
       value={{
         users: state.users,
         loading: state.loading,
+        user: state.user,
         searchUsers,
         clearUsers,
+        getUser
       }}
     >
       {children}
