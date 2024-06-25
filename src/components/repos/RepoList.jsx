@@ -15,7 +15,7 @@ function RepoList({repos}) {
         ))}
       </div>
     </div>
-  )
+  ) 
 }
 
 RepoList.PropTypes = {
