@@ -15,6 +15,7 @@ function User() {
 
   //pull info from user obj
 
+
   if (loading) {
     return <Spinner />;
   }
@@ -46,11 +47,11 @@ function User() {
                 <div className="ml-2 mr-1 badge badge-success">
                 {user.type}
                 </div>
-                {/* {hireable && (
+                {`${user.hireable}` && (
                   <div className="mx-1 badge badge-info">
                     Hireable
                   </div>
-                )} */}
+                )}
               </h1>
               <p>{user.bio}</p>
               <div className="mt-4 card-actions">
