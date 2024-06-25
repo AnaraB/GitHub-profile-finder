@@ -16,6 +16,7 @@ Use the search bar to find GitHub users:
 * Daisy UI: Tailwind CSS component library for UI elements.
 * Vite: Next-generation frontend tooling for fast development.
 * GitHub REST API: API for accessing GitHub user data.
+* Context API: State management solution for React applications.
 * PropTypes: Runtime type checking for React props.
 
 ------------------------------------
