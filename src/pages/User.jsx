@@ -2,15 +2,17 @@ import { useEffect, useContext } from "react";
 import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa";
 import { useParams, Link } from "react-router-dom";
 import Spinner from "../components/layout/Spinner";
+import RepoList from "../components/repos/RepoList";
 import GithubContext from "../context/github/GitHubContext";
 
 function User() {
-  const { getUser, user, loading } = useContext(GithubContext);
+  const { getUser, user, loading, getUserRepos, repos } = useContext(GithubContext);
   const params = useParams();
 
   //we add second argument as [], to run getUser function just once
   useEffect(() => {
     getUser(params.login);
+    getUserRepos(params.login)
   }, []);
 
   //pull info from user obj
@@ -132,9 +134,8 @@ function User() {
               {user.public_gists}
             </div>
           </div>
-
-
         </div>
+        <RepoList repos={repos}/>
       </div>
     </>
   );
