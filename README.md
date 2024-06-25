@@ -31,6 +31,9 @@ The following short video demonstrates the web application's user profile appear
 ![The GitHub Profile Finder demo.](./src/assets/app_demo_video.gif)
 
 
+#### Deployed site: https://github-profile-finder-lovat.vercel.app/
+
+
 ### Credits 
 Credit for this project goes to Traversy Media for the tutorial that inspired and guided the development of this application.
 
