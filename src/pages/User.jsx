@@ -16,7 +16,7 @@ function User() {
   }, []);
 
   //pull info from user obj
-  console.log(user)
+  // console.log(user)
 
   if (loading) {
     return <Spinner />;
