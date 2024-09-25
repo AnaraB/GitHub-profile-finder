@@ -7,6 +7,7 @@ const GithubContext = createContext();
 const GITHUB_URL = import.meta.env.VITE_APP_GITHUB_URL;
 const GITHUB_TOKEN = import.meta.env.VITE_APP_GITHUB_TOKEN;
 
+
 export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
@@ -27,6 +28,11 @@ export const GithubProvider = ({ children }) => {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
     });
+
+    if(!GITHUB_TOKEN || !GITHUB_TOKEN){
+      console.log("not auth permission");    
+    }
+    
     //if such user is not found redirect to NOT FOUND page
     if (response.status === 400) {
       window.location = "/notfound";
